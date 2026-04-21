@@ -1,0 +1,14 @@
+https://github.com/dirien/claude-skills --skill pulumi-typescript
+https://github.com/jeffallan/claude-skills --skill devops-engineer
+https://github.com/jeffallan/claude-skills --skill kubernetes-specialist
+https://github.com/jeffallan/claude-skills --skill monitoring-expert
+https://github.com/jeffallan/claude-skills --skill sre-engineer
+https://github.com/obra/superpowers --skill systematic-debugging
+https://github.com/pulumi/agent-skills --skill pulumi-best-practices
+https://github.com/pulumi/agent-skills --skill pulumi-esc
+https://github.com/wshobson/agents --skill cost-optimization
+https://github.com/wshobson/agents --skill github-actions-templates
+https://github.com/wshobson/agents --skill gitops-workflow
+https://github.com/wshobson/agents --skill incident-runbook-templates
+https://github.com/wshobson/agents --skill k8s-security-policies
+https://github.com/affaan-m/everything-claude-code --skill security-review
