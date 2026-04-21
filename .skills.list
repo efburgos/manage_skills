@@ -12,3 +12,4 @@ https://github.com/wshobson/agents --skill gitops-workflow
 https://github.com/wshobson/agents --skill incident-runbook-templates
 https://github.com/wshobson/agents --skill k8s-security-policies
 https://github.com/affaan-m/everything-claude-code --skill security-review
+https://github.com/anthropics/skills --skill skill-creator
