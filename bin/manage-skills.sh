@@ -5,7 +5,8 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # --- Configuración y Colores ---
 SKILLS_FILE="$PROJECT_DIR/conf/skills.list"
-INSTALLED_FILE="$PROJECT_DIR/conf/skills.installed"
+GLOBAL_AGENTS_DIR="$HOME/.agents"
+INSTALLED_FILE="$GLOBAL_AGENTS_DIR/skills.installed"
 
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
@@ -16,6 +17,7 @@ NC='\033[0m'
 
 # Aseguramos que los archivos existan
 mkdir -p "$PROJECT_DIR/conf"
+mkdir -p "$GLOBAL_AGENTS_DIR"
 touch "$SKILLS_FILE"
 touch "$INSTALLED_FILE"
 
@@ -130,8 +132,7 @@ process_skills() {
 
         echo -e "\n📦 Repo: ${CYAN}$url${NC}"
         echo -e "🚀 Instalando: ${GREEN}$skills_batch${NC}"
-
-        if npx skills add "$url" --skill "$skills_batch" --global --yes; then
+        if npx -y skills add "$url" --skill "$skills_batch" --global --yes; then
             echo -e "  ${GREEN}✓ Instalación exitosa${NC}"
             echo "$skills_batch" >> "$INSTALLED_FILE"
             sort -u "$INSTALLED_FILE" -o "$INSTALLED_FILE"

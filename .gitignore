@@ -412,3 +412,13 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# AI Manager local state
+conf/*.installed
+.agents/
+.gemini/
+.claude/
+.cursorrules
+CLAUDE.md
+skills/
+skills-lock.json
