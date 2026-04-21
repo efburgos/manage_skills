@@ -81,6 +81,22 @@ remove_skill() {
     echo -e "${YELLOW}- Eliminada:${NC} $1 de la configuración."
 }
 
+setup_antigravity_symlink() {
+    local source_dir="$HOME/.agents/skills"
+    local target_dir="$HOME/.gemini/antigravity/skills"
+
+    if [ ! -d "$source_dir" ]; then
+        return
+    fi
+    
+    if [ ! -e "$target_dir" ] && [ ! -L "$target_dir" ]; then
+        echo -e "\n${BLUE}Configurando symlink para Antigravity...${NC}"
+        mkdir -p "$(dirname "$target_dir")"
+        ln -s "$source_dir" "$target_dir"
+        echo -e "  ${GREEN}✓ Symlink creado:${NC} $target_dir -> $source_dir"
+    fi
+}
+
 # Función unificada para sync y update
 process_skills() {
     local force_update=$1
@@ -127,6 +143,8 @@ process_skills() {
             # No se añade al archivo .skills.installed si falla, para que reintente en el próximo sync
         fi
     done 3< "$SKILLS_FILE"
+
+    setup_antigravity_symlink
 
     echo -e "\n${GREEN}Proceso finalizado.${NC}"
 }

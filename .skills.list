@@ -13,3 +13,5 @@ https://github.com/wshobson/agents --skill incident-runbook-templates
 https://github.com/wshobson/agents --skill k8s-security-policies
 https://github.com/affaan-m/everything-claude-code --skill security-review
 https://github.com/anthropics/skills --skill skill-creator
+https://github.com/terramate-io/agent-skills --skill terraform-best-practices
+https://github.com/akin-ozer/cc-devops-skills --skill terragrunt-generator

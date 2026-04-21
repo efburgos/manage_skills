@@ -1,5 +1,7 @@
 cost-optimization
+database-optimizer
 devops-engineer
+frontend-design
 github-actions-templates
 gitops-workflow
 incident-runbook-templates
@@ -12,4 +14,9 @@ pulumi-typescript
 security-review
 skill-creator
 sre-engineer
+supabase-postgres-best-practices
 systematic-debugging
+tech-lead-mentor
+terraform-best-practices
+terragrunt-generator
+web-search
