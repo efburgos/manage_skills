@@ -422,3 +422,4 @@ conf/*.installed
 CLAUDE.md
 skills/
 skills-lock.json
+.aider*
