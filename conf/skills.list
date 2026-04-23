@@ -15,3 +15,4 @@ https://github.com/affaan-m/everything-claude-code --skill security-review
 https://github.com/anthropics/skills --skill skill-creator
 https://github.com/terramate-io/agent-skills --skill terraform-best-practices
 https://github.com/akin-ozer/cc-devops-skills --skill terragrunt-generator
+https://github.com/vercel-labs/skills --skill find-skills
