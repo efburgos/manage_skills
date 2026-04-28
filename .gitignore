@@ -423,3 +423,4 @@ CLAUDE.md
 skills/
 skills-lock.json
 .aider*
+.venv/

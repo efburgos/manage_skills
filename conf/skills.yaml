@@ -1,42 +1,42 @@
 repositories:
-  - url: https://github.com/dirien/claude-skills
-    skills:
-      - pulumi-typescript
-  - url: https://github.com/jeffallan/claude-skills
-    skills:
-      - devops-engineer
-      - kubernetes-specialist
-      - monitoring-expert
-      - sre-engineer
-  - url: https://github.com/obra/superpowers
-    skills:
-      - systematic-debugging
-  - url: https://github.com/pulumi/agent-skills
-    skills:
-      - pulumi-best-practices
-      - pulumi-esc
-  - url: https://github.com/wshobson/agents
-    skills:
-      - cost-optimization
-      - github-actions-templates
-      - gitops-workflow
-      - incident-runbook-templates
-      - k8s-security-policies
-  - url: https://github.com/affaan-m/everything-claude-code
-    skills:
-      - security-review
-  - url: https://github.com/anthropics/skills
-    skills:
-      - skill-creator
-  - url: https://github.com/terramate-io/agent-skills
-    skills:
-      - terraform-best-practices
-  - url: https://github.com/akin-ozer/cc-devops-skills
-    skills:
-      - terragrunt-generator
-  - url: https://github.com/vercel-labs/skills
-    skills:
-      - find-skills
-  - url: https://github.com/supabase/agent-skills
-    skills:
-      - supabase
+- url: https://github.com/dirien/claude-skills
+  skills:
+  - pulumi-typescript
+- url: https://github.com/jeffallan/claude-skills
+  skills:
+  - devops-engineer
+  - kubernetes-specialist
+  - monitoring-expert
+  - sre-engineer
+- url: https://github.com/obra/superpowers
+  skills:
+  - systematic-debugging
+- url: https://github.com/pulumi/agent-skills
+  skills:
+  - pulumi-best-practices
+  - pulumi-esc
+- url: https://github.com/wshobson/agents
+  skills:
+  - cost-optimization
+  - github-actions-templates
+  - gitops-workflow
+  - incident-runbook-templates
+  - k8s-security-policies
+- url: https://github.com/affaan-m/everything-claude-code
+  skills:
+  - security-review
+- url: https://github.com/anthropics/skills
+  skills:
+  - skill-creator
+- url: https://github.com/terramate-io/agent-skills
+  skills:
+  - terraform-best-practices
+- url: https://github.com/akin-ozer/cc-devops-skills
+  skills:
+  - terragrunt-generator
+- url: https://github.com/vercel-labs/skills
+  skills:
+  - find-skills
+- url: https://github.com/supabase/agent-skills
+  skills:
+  - supabase
