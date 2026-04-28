@@ -41,7 +41,7 @@ case "$CMD" in
         exec "$SCRIPT_DIR/bin/init-env.sh" "$@"
         ;;
     add|remove|list|sync|update|clean)
-        exec "$SCRIPT_DIR/bin/manage-skills.sh" "$CMD" "$@"
+        exec "$SCRIPT_DIR/bin/manage_skills.py" "$CMD" "$@"
         ;;
     *)
         show_help

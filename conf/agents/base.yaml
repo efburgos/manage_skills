@@ -1,0 +1,12 @@
+agent: base
+version: "1.0"
+
+# Global skills shared by all agents
+skills:
+  - name: default-skill
+    url: "https://github.com/example/default-skill"
+
+# Common configuration for all agents
+settings:
+  retries: 3
+  timeout: 30

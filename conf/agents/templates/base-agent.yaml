@@ -1,0 +1,14 @@
+agent: template
+version: "1.0"
+
+# Skills specific to this agent
+skills: []
+
+# Post-installation commands
+post_install:
+  commands: []
+  env_vars: {}
+
+# Cleanup instructions
+cleanup:
+  remove_dirs: []
