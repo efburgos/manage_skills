@@ -20,6 +20,7 @@ uv run bin/manage_skills.py list               # Lists the configured skills in 
 uv run bin/manage_skills.py add <url> <name>   # Adds a new skill to the list
 uv run bin/manage_skills.py remove <name>      # Removes a skill from the list
 uv run bin/manage_skills.py clean              # Cleans local hidden folders
+uv run bin/manage_skills.py inject             # Injects global skills into local project IDE configs
 ```
 
 ### Options and Explanations
@@ -30,6 +31,7 @@ uv run bin/manage_skills.py clean              # Cleans local hidden folders
 - **`add <url> <name>`**: Registers a new skill repository URL with the given name into the configuration file.
 - **`remove <name>`**: Removes the specified skill from the configuration and uninstalls it.
 - **`clean`**: Clears out any local hidden directories or cached states created by the manager.
+- **`inject`**: Detects if you are using Cursor or Roo Code (Cline) in your current project directory, and automatically creates the necessary symlinks (`.cursor/rules` or `.roomodes`) pointing to your global downloaded skills so that your IDE can natively use them.
 
 ## Antigravity (Gemini)
 
@@ -42,3 +44,15 @@ ln -s ~/.agents/skills ~/.gemini/antigravity/skills
 ```
 
 This way, all tools acquired through this manager will be documented and ready to use with your Antigravity agent.
+
+## IDE Integration (Cursor, VSCode, Copilot) - Planned Feature
+
+Currently, IDEs like **Cursor** or **VSCode** do not read global rule directories natively. They expect rule files (`.cursor/rules/`, `.github/copilot-instructions.md`, `.clinerules`) to be located directly inside the root of each project.
+
+**Planned UX Improvement:** We are planning to introduce an `inject` (or `link-project`) command. 
+Running `uv run bin/manage_skills.py inject` inside any of your project repositories will automatically:
+- Detect the target IDE rules.
+- Safely generate the necessary `symlinks` from your global `~/.agents/skills` directly into your local project.
+- Provide a true "plug-and-play" experience without manually copying files or creating symlinks per project. 
+
+*For more details on this decision, refer to [ADR-0001: IDE Local Skills Integration](docs/architecture/decisions/ADR-0001-ide-local-skills-integration.md).*

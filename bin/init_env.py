@@ -91,6 +91,37 @@ def setup_claude_env() -> None:
             console.print("  [yellow]✓ CLAUDE.md already exists in project. Skipped.[/yellow]")
 
 
+def setup_roocode_env() -> None:
+    console.print("\n[cyan][Roo Code / Cline][/cyan] Configuring local environment...")
+    roo_rules_src = ENV_DIR / "roocode" / "roomodes.template"
+    if roo_rules_src.is_file():
+        target_roo_rules = Path.cwd() / ".clinerules"
+        if not target_roo_rules.is_file():
+            shutil.copy2(roo_rules_src, target_roo_rules)
+            console.print(
+                f"  [green]✓ Created:[/green] .clinerules in current project ({Path.cwd()})"
+            )
+        else:
+            console.print("  [yellow]✓ .clinerules already exists in project. Skipped.[/yellow]")
+
+
+def setup_copilot_env() -> None:
+    console.print("\n[cyan][GitHub Copilot][/cyan] Configuring local environment...")
+    copilot_rules_src = ENV_DIR / "copilot" / "copilot-instructions.template"
+    if copilot_rules_src.is_file():
+        target_dir = Path.cwd() / ".github"
+        target_dir.mkdir(parents=True, exist_ok=True)
+        target_copilot_rules = target_dir / "copilot-instructions.md"
+        if not target_copilot_rules.is_file():
+            shutil.copy2(copilot_rules_src, target_copilot_rules)
+            console.print(
+                f"  [green]✓ Created:[/green] .github/copilot-instructions.md in current project ({Path.cwd()})"
+            )
+        else:
+            console.print("  [yellow]✓ .github/copilot-instructions.md already exists. Skipped.[/yellow]")
+
+
+
 def main() -> None:
     header()
 
@@ -105,11 +136,13 @@ def main() -> None:
     console.print("\n[blue]For which environment do you want to configure the system files?[/blue]")
     console.print("1) Antigravity (Gemini)")
     console.print("2) Cursor")
-    console.print("3) Claude (Code/Roo)")
-    console.print("4) All")
-    console.print("5) Exit")
+    console.print("3) Claude Code")
+    console.print("4) Roo Code / Cline")
+    console.print("5) GitHub Copilot")
+    console.print("6) All")
+    console.print("7) Exit")
 
-    option = IntPrompt.ask("Choose an option", choices=["1", "2", "3", "4", "5"])
+    option = IntPrompt.ask("Choose an option", choices=[str(i) for i in range(1, 8)])
 
     if option == 1:
         setup_antigravity_env()
@@ -118,10 +151,16 @@ def main() -> None:
     elif option == 3:
         setup_claude_env()
     elif option == 4:
+        setup_roocode_env()
+    elif option == 5:
+        setup_copilot_env()
+    elif option == 6:
         setup_antigravity_env()
         setup_cursor_env()
         setup_claude_env()
-    elif option == 5:
+        setup_roocode_env()
+        setup_copilot_env()
+    elif option == 7:
         console.print("Exiting...")
         sys.exit(0)
 

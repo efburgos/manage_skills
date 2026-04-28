@@ -26,6 +26,7 @@ show_help() {
     echo -e "  \033[0;32msync\033[0m             Download only new or missing skills"
     echo -e "  \033[0;32mupdate [name]\033[0m    Force update of a specific skill or all of them"
     echo -e "  \033[0;32mclean\033[0m            Clean up local cache/state folders"
+    echo -e "  \033[0;32minject\033[0m           Inject global skills into local project IDE configs"
 }
 
 check_dependencies() {
@@ -92,7 +93,7 @@ case "$CMD" in
     init)
         exec "$SCRIPT_DIR/bin/init_env.py" "$@"
         ;;
-    add|remove|list|sync|update|clean)
+    add|remove|list|sync|update|clean|inject)
         exec "$SCRIPT_DIR/bin/manage_skills.py" "$CMD" "$@"
         ;;
     *)

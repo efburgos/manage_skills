@@ -141,6 +141,36 @@ def setup_antigravity_symlink() -> None:
         console.print(f"  [green]✓ Symlink created:[/green] {target_dir} -> {source_dir}")
 
 
+def inject_ide_rules() -> None:
+    source_dir = Path.home() / ".agents" / "skills"
+    if not source_dir.is_dir():
+        console.print("[red]✗ Global skills directory not found. Please run sync first.[/red]")
+        return
+        
+    cwd = Path.cwd()
+    console.print(f"\n[blue]Injecting IDE skills into current project: {cwd}[/blue]")
+    
+    # 1. Cursor
+    cursor_rules = cwd / ".cursor" / "rules"
+    if not cursor_rules.exists() and not cursor_rules.is_symlink():
+        cursor_rules.parent.mkdir(parents=True, exist_ok=True)
+        os.symlink(source_dir, cursor_rules)
+        console.print(f"  [green]✓ Cursor:[/green] Created symlink {cursor_rules} -> {source_dir}")
+    else:
+        console.print("  [yellow]- Cursor:[/yellow] rules directory already exists, skipping.")
+
+    # 2. Roo Code / Cline
+    cline_rules_dir = cwd / ".roomodes"
+    if not cline_rules_dir.exists() and not cline_rules_dir.is_symlink():
+        os.symlink(source_dir, cline_rules_dir)
+        console.print(f"  [green]✓ Roo Code:[/green] Created symlink {cline_rules_dir} -> {source_dir}")
+    else:
+        console.print("  [yellow]- Roo Code:[/yellow] .roomodes already exists, skipping.")
+
+    console.print("\n[green]✓ IDE Injection complete.[/green] Add these paths to your .gitignore if needed.")
+
+
+
 def process_skills(force_update: bool = False, target_skill: str | None = None) -> None:
     header()
 
@@ -252,6 +282,7 @@ def main() -> None:
     )
     subparsers.add_parser("list", help="Lists the configured skills in the project")
     subparsers.add_parser("clean", help="Cleans local hidden folders")
+    subparsers.add_parser("inject", help="Injects global skills into local project IDE configs (Cursor, VSCode)")
 
     add_parser = subparsers.add_parser("add", help="Adds a new skill to the list")
     add_parser.add_argument("url", help="Repository URL")
@@ -274,6 +305,8 @@ def main() -> None:
         remove_skill(args.name)
     elif args.command == "clean":
         cleanup_local()
+    elif args.command == "inject":
+        inject_ide_rules()
 
 
 if __name__ == "__main__":
