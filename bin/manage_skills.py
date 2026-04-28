@@ -64,11 +64,11 @@ def list_skills() -> None:
     repos = data.get("repositories", [])
 
     if not repos:
-        console.print("  [yellow](Lista vacía)[/yellow]")
+        console.print("  [yellow](Empty list)[/yellow]")
         return
 
-    table = Table(title="Skills configuradas para este proyecto", show_lines=True)
-    table.add_column("Repositorio", style="cyan")
+    table = Table(title="Skills configured for this project", show_lines=True)
+    table.add_column("Repository", style="cyan")
     table.add_column("Skills", style="green")
 
     for repo in repos:
@@ -99,7 +99,7 @@ def add_skill(url: str, skill_name: str) -> None:
 
     data["repositories"] = repos
     save_skills(data)
-    console.print(f"[green]✓ Añadida:[/green] {skill_name} ({url})")
+    console.print(f"[green]✓ Added:[/green] {skill_name} ({url})")
 
 
 def remove_skill(skill_name: str) -> None:
@@ -124,7 +124,7 @@ def remove_skill(skill_name: str) -> None:
             with open(INSTALLED_FILE, "w") as f:
                 f.write("\n".join(sorted(installed)) + "\n")
 
-    console.print(f"[yellow]- Eliminada:[/yellow] {skill_name} de la configuración.")
+    console.print(f"[yellow]- Removed:[/yellow] {skill_name} from configuration.")
 
 
 def setup_antigravity_symlink() -> None:
@@ -135,27 +135,29 @@ def setup_antigravity_symlink() -> None:
         return
 
     if not target_dir.exists() and not target_dir.is_symlink():
-        console.print("\n[blue]Configurando symlink para Antigravity...[/blue]")
+        console.print("\n[blue]Configuring symlink for Antigravity...[/blue]")
         target_dir.parent.mkdir(parents=True, exist_ok=True)
         os.symlink(source_dir, target_dir)
-        console.print(f"  [green]✓ Symlink creado:[/green] {target_dir} -> {source_dir}")
+        console.print(f"  [green]✓ Symlink created:[/green] {target_dir} -> {source_dir}")
 
 
-def process_skills(force_update: bool = False) -> None:
+def process_skills(force_update: bool = False, target_skill: str | None = None) -> None:
     header()
 
-    if force_update:
-        console.print("[blue]Iniciando ACTUALIZACIÓN FORZADA de todas las skills...[/blue]")
+    if force_update and not target_skill:
+        console.print("[blue]Starting FORCED UPDATE of all skills...[/blue]")
         with open(INSTALLED_FILE, "w") as f:
             f.write("")
+    elif force_update and target_skill:
+        console.print(f"[blue]Starting UPDATE for skill: {target_skill}...[/blue]")
     else:
-        console.print("[blue]Iniciando sincronización...[/blue]")
+        console.print("[blue]Starting synchronization...[/blue]")
 
     data = load_skills()
     repos = data.get("repositories", [])
 
     if not repos:
-        console.print("[yellow]No hay skills en la lista para procesar.[/yellow]")
+        console.print("[yellow]No skills in the list to process.[/yellow]")
         return
 
     installed = set()
@@ -171,12 +173,19 @@ def process_skills(force_update: bool = False) -> None:
             continue
 
         for skill in skills:
-            if not force_update and skill in installed:
-                console.print(f"⚡ [yellow]Saltando:[/yellow] {skill}")
+            if target_skill and skill != target_skill:
                 continue
 
+            # If force_update is True and target_skill matches, we skip 'installed' check
+            if not force_update and skill in installed:
+                console.print(f"⚡ [yellow]Skipping:[/yellow] {skill}")
+                continue
+            
+            if force_update and target_skill == skill and skill in installed:
+                installed.remove(skill)
+
             console.print(f"\n📦 Repo: [cyan]{url}[/cyan]")
-            console.print(f"🚀 Instalando: [green]{skill}[/green]")
+            console.print(f"🚀 Installing: [green]{skill}[/green]")
 
             try:
                 result = subprocess.run(
@@ -194,22 +203,22 @@ def process_skills(force_update: bool = False) -> None:
                     check=False,
                 )
                 if result.returncode == 0:
-                    console.print("  [green]✓ Instalación exitosa[/green]")
+                    console.print("  [green]✓ Installation successful[/green]")
                     installed.add(str(skill))
                 else:
-                    console.print("  [red]✗ Falló la instalación[/red]")
+                    console.print("  [red]✗ Installation failed[/red]")
             except FileNotFoundError:
-                console.print("  [red]✗ Error: 'npx' no encontrado[/red]")
+                console.print("  [red]✗ Error: 'npx' not found[/red]")
 
     with open(INSTALLED_FILE, "w") as f:
         f.write("\n".join(sorted(installed)) + "\n")
 
     setup_antigravity_symlink()
-    console.print("\n[green]Proceso finalizado.[/green]")
+    console.print("\n[green]Process finished.[/green]")
 
 
 def cleanup_local() -> None:
-    console.print("[blue]Limpiando contaminación local del workspace...[/blue]")
+    console.print("[blue]Cleaning up local workspace contamination...[/blue]")
     for item in PROJECT_DIR.iterdir():
         if (
             item.is_dir()
@@ -227,33 +236,36 @@ def cleanup_local() -> None:
             else:
                 p.unlink()
 
-    console.print("[green]✓ Workspace impecable.[/green]")
+    console.print("[green]✓ Pristine workspace.[/green]")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="SRE Skills Manager")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    subparsers.add_parser("sync", help="Instala solo las skills nuevas o faltantes")
-    subparsers.add_parser(
-        "update", help="Fuerza la actualización/reinstalación de TODAS las skills"
+    subparsers.add_parser("sync", help="Installs only new or missing skills")
+    update_parser = subparsers.add_parser(
+        "update", help="Forces update of a specific skill or ALL skills"
     )
-    subparsers.add_parser("list", help="Lista las skills configuradas en el proyecto")
-    subparsers.add_parser("clean", help="Limpia carpetas ocultas locales")
+    update_parser.add_argument(
+        "name", nargs="?", help="Name of the skill to update (optional)"
+    )
+    subparsers.add_parser("list", help="Lists the configured skills in the project")
+    subparsers.add_parser("clean", help="Cleans local hidden folders")
 
-    add_parser = subparsers.add_parser("add", help="Añade una nueva skill a la lista")
-    add_parser.add_argument("url", help="URL del repositorio")
-    add_parser.add_argument("name", help="Nombre de la skill")
+    add_parser = subparsers.add_parser("add", help="Adds a new skill to the list")
+    add_parser.add_argument("url", help="Repository URL")
+    add_parser.add_argument("name", help="Skill name")
 
-    remove_parser = subparsers.add_parser("remove", help="Quita una skill de la lista")
-    remove_parser.add_argument("name", help="Nombre de la skill")
+    remove_parser = subparsers.add_parser("remove", help="Removes a skill from the list")
+    remove_parser.add_argument("name", help="Skill name")
 
     args = parser.parse_args()
 
     if args.command == "sync":
         process_skills(force_update=False)
     elif args.command == "update":
-        process_skills(force_update=True)
+        process_skills(force_update=True, target_skill=args.name)
     elif args.command == "list":
         list_skills()
     elif args.command == "add":
