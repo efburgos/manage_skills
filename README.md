@@ -1,31 +1,44 @@
 # SRE Skills Manager
 
-Este repositorio contiene las herramientas y configuraciones para manejar y sincronizar *skills* (habilidades de IA) en el entorno local.
+This repository contains the tools and configurations to manage and synchronize AI skills in your local environment.
+It uses a robust Python-based system with `uv` for dependency management and `yaml` for configuration.
 
-## Dependencias
+## Dependencies
 
-Se requiere tener Node.js y `npx` instalados. Las *skills* se descargan de manera global en el directorio `~/.agents/skills`.
+You must have `uv`, `node`, and `npx` installed on your system.
+Skills are downloaded globally to the `~/.agents/skills` directory.
 
-## Uso
+## Usage
 
-El script interactúa con los archivos locales `.skills.list` (donde se configuran los repositorios) y `.skills.installed` (donde guarda el estado para no reinstalar).
+The project uses `uv` to run the python script `bin/manage_skills.py`, which interacts with the `conf/skills.yaml` file (where repositories are configured) and a local state file to track installed skills.
 
 ```bash
-./manage-skills.sh sync             # Instala solo las skills nuevas o faltantes
-./manage-skills.sh update           # Fuerza la actualización/reinstalación de TODAS las skills
-./manage-skills.sh list             # Lista las skills configuradas en el proyecto
-./manage-skills.sh add <url> <name> # Añade una nueva skill a la lista
-./manage-skills.sh remove <name>    # Quita una skill de la lista
-./manage-skills.sh clean            # Limpia carpetas ocultas locales
+uv run bin/manage_skills.py sync               # Installs only new or missing skills
+uv run bin/manage_skills.py update             # Forces update/reinstallation of ALL skills
+uv run bin/manage_skills.py update <name>      # Forces update of a specific skill by name
+uv run bin/manage_skills.py list               # Lists the configured skills in the project
+uv run bin/manage_skills.py add <url> <name>   # Adds a new skill to the list
+uv run bin/manage_skills.py remove <name>      # Removes a skill from the list
+uv run bin/manage_skills.py clean              # Cleans local hidden folders
 ```
+
+### Options and Explanations
+
+- **`sync`**: Checks the `conf/skills.yaml` configuration and only installs the skills that are not already present or marked as installed. Ideal for initial setup or after pulling new changes.
+- **`update [name]`**: If no name is provided, it forces an update and reinstallation of all configured skills. If a `<name>` is specified, it updates only that specific skill.
+- **`list`**: Displays all currently configured skills.
+- **`add <url> <name>`**: Registers a new skill repository URL with the given name into the configuration file.
+- **`remove <name>`**: Removes the specified skill from the configuration and uninstalls it.
+- **`clean`**: Clears out any local hidden directories or cached states created by the manager.
 
 ## Antigravity (Gemini)
 
-Para que el framework **Antigravity** (herramienta basada en Gemini) reconozca correctamente todas las *skills* descargadas globalmente, es necesario enlazar los directorios. El script `manage-skills.sh` crea automáticamente este `symlink` al terminar las operaciones de sincronización (`sync` o `update`).
+For the **Antigravity** framework (a Gemini-based tool) to correctly recognize all globally downloaded skills, you need to link the directories.
+The script automatically creates a symlink after running the synchronization operations (`sync` or `update`).
 
-La ruta de enlace lógico que crea el script es la siguiente:
+The logical link path created by the script avoids absolute paths:
 ```bash
-ln -s /Users/ezequiel/.agents/skills ~/.gemini/antigravity/skills
+ln -s ~/.agents/skills ~/.gemini/antigravity/skills
 ```
 
-De esta manera, todas las herramientas que obtengas con este gestor quedarán documentadas y listas para usar con tu agente Antigravity.
+This way, all tools acquired through this manager will be documented and ready to use with your Antigravity agent.
