@@ -55,4 +55,3 @@ Running `uv run bin/manage_skills.py inject` inside any of your project reposito
 - Safely generate the necessary `symlinks` from your global `~/.agents/skills` directly into your local project.
 - Provide a true "plug-and-play" experience without manually copying files or creating symlinks per project. 
 
-*For more details on this decision, refer to [ADR-0001: IDE Local Skills Integration](docs/architecture/decisions/ADR-0001-ide-local-skills-integration.md).*
