@@ -10,7 +10,20 @@ repositories:
   - sre-engineer
 - url: https://github.com/obra/superpowers
   skills:
+  - brainstorming
+  - dispatching-parallel-agents
+  - executing-plans
+  - finishing-a-development-branch
+  - receiving-code-review
+  - requesting-code-review
+  - subagent-driven-development
   - systematic-debugging
+  - test-driven-development
+  - using-git-worktrees
+  - using-superpowers
+  - verification-before-completion
+  - writing-plans
+  - writing-skills
 - url: https://github.com/pulumi/agent-skills
   skills:
   - pulumi-best-practices
@@ -40,3 +53,9 @@ repositories:
 - url: https://github.com/supabase/agent-skills
   skills:
   - supabase
+- url: https://github.com/github/awesome-copilot
+  skills:
+  - documentation-writer
+- url: https://github.com/firecrawl/cli
+  skills:
+  - firecrawl
