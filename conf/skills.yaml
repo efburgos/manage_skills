@@ -59,3 +59,18 @@ repositories:
 - url: https://github.com/firecrawl/cli
   skills:
   - firecrawl
+- url: https://github.com/juliusbrussee/caveman
+  skills:
+  - caveman
+- url: https://github.com/anthropic/skill-creator
+  skills:
+  - skill-creator
+- url: https://github.com/op7418/humanizer-zh
+  skills:
+  - humanizer-zh
+- url: https://github.com/github/awesome-copilot
+  skills:
+  - napkin
+- url: https://github.com/d4kooo/openclaw-token-memory-optimizer
+  skills:
+  - token-optimizer
