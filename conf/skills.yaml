@@ -74,3 +74,6 @@ repositories:
 - url: https://github.com/d4kooo/openclaw-token-memory-optimizer
   skills:
   - token-optimizer
+- url: https://github.com/a-organvm/a-i--skills
+  skills:
+  - knowledge-architecture
